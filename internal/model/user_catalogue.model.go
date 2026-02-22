@@ -4,7 +4,6 @@ import "time" // dùng cho các field created_at, updated_at
 
 // định nghĩa các field trong bảng user_catalogues
 type UserCatalogue struct {
-
 	// go sử dụng   type   struct tag sẽ trả về theo field trên DB thay vì go. gorm mapping struct -> table
 	ID          uint      `json:"id"               gorm:"primarykey,autoIncrement"`
 	Name        string    `json:"name"             gorm:"not null"`
