@@ -24,8 +24,7 @@ Thumbs.db
 .env
 .env.local
 
-# Vendor (nếu không commit vendor)
-# vendor/
+vendor/
 
 # Tmp (air hot reload)
 tmp/
@@ -41,3 +40,4 @@ config/production.yaml
 config/staging.yaml
 
 logs/
+*.log
