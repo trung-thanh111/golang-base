@@ -10,7 +10,6 @@ src/
 │   ├── handler/             # Xử lý yêu cầu HTTP (handler)
 │   ├── middleware/           # API middleware
 │   └── router.go            # Router definition
-├── assets/                  # Static assets
 ├── build/                   # Build & CI configs
 ├── cmd/
 │   ├── app/                 # Entry point — start app
@@ -18,6 +17,7 @@ src/
 ├── configs/                 # Config files
 ├── deployments/             # Docker Compose, k8s, terraform
 ├── docs/                    # Documentation
+├── global/                    # Documentation
 ├── internal/                # Private code
 │   ├── model/               # Domain models / DB models
 │   ├── repository/          # Data access layer

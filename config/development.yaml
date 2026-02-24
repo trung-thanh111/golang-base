@@ -1,4 +1,4 @@
-# config/development.yaml === env
+# config/development.yaml
 app:
   name: "chat-service"
   version: "1.0.0"

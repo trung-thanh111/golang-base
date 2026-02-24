@@ -16,3 +16,5 @@ func main() {
 		log.Fatalf("failed to run server: %v", err)
 	}
 }
+
+// điểm đầu app bắt đầu chạy như index.php trong php
