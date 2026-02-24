@@ -1,0 +1,27 @@
+# config/development.yaml === env
+app:
+  name: "chat-service"
+  version: "1.0.0"
+
+server:
+  port: 8080
+
+database:
+  host: "localhost"
+  port: 3036
+  user: "root"
+  password: ""
+  dbname: "chat_service"
+  sslmode: "disable"
+
+redis:
+  host: "localhost"
+  port: 6379
+  password: ""
+  db: 1
+jwt:
+  secret: ""
+aws:
+  access_key_id: ""
+  secret_access_key: ""
+  region: ""

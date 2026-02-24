@@ -36,3 +36,8 @@ dist/
 docs/
 
 build/
+
+config/production.yaml
+config/staging.yaml
+
+logs/

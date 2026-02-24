@@ -1,6 +1,7 @@
 package routers // như khai báo namespace trong php
 
 import (
+	"fmt"
 	"net/http" // import package net/http dùng các trạng thái của api (200, 404, 500, ...)
 
 	"github.com/gin-gonic/gin" // import package gin-gonic dùng để tạo server, framework web
@@ -25,6 +26,24 @@ func Router() *gin.Engine {
 	r.GET("/ping", Pong)
 
 	return r // trả về router
+}
+
+func AA(c *gin.Context) gin.HandlerFunc {
+	fmt.Println("before --> AA")
+	c.Next()
+	fmt.Println("after --> AA")
+	return nil
+}
+func BB(c *gin.Context) gin.HandlerFunc {
+	fmt.Println("before --> BB")
+	c.Next()
+	fmt.Println("after --> BB")
+	return nil
+}
+func CC(c *gin.Context) {
+	fmt.Println("before --> CC")
+	c.Next()
+	fmt.Println("after --> CC")
 }
 
 // Hàm này là hàm xử lý request (c là viết tắt của context)
