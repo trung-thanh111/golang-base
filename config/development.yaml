@@ -3,6 +3,17 @@ app:
   name: "chat-service"
   version: "1.0.0"
 
+logger:
+  env: "development"
+  level: "debug" # debug, info, warn, error
+  log_dir: "logs" # thư mục chứa file log
+  filename: "app.log" # tên file log
+  max_size_mb: 100 # dung lượng tối đa trước khi quay vòng (MB)
+  max_backups: 30 # số file backup giữ lại
+  max_age_days: 60 # số ngày giữ log
+  compress: true # nén file log cũ
+  enable_console: true # có log ra console không
+
 server:
   port: 8080
 
@@ -12,6 +23,9 @@ database:
   user: "root"
   password: ""
   dbname: "chat_service"
+  max_idle_conns: 10 #
+  max_open_conns: 100 # set số lượng max kết nối đến database
+  conn_max_lifetime: 3600 # 1h
   sslmode: "disable"
 
 redis:

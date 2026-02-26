@@ -1,60 +1,61 @@
-package routers // như khai báo namespace trong php
+package routers
 
 import (
-	"fmt"
-	"net/http" // import package net/http dùng các trạng thái của api (200, 404, 500, ...)
+	"net/http"
 
-	"github.com/gin-gonic/gin" // import package gin-gonic dùng để tạo server, framework web
+	"github.com/gin-gonic/gin"
+	"go.uber.org/zap"
+	"gorm.io/gorm"
+
+	response "golang-base/pkg/response"
 )
 
-func Router() *gin.Engine {
-	// Create a Gin router with default middleware (logger and recovery). r mean router
-	r := gin.Default()
-	// có thể group lại thành v1 or v2 = cách như bên dưới
+// NewRouter — tạo gin.Engine KHÔNG có default middleware
+// Middleware sẽ được add riêng ở initialize/run.go
+func NewRouter(log *zap.Logger) *gin.Engine {
+	gin.SetMode(gin.ReleaseMode)
+	r := gin.New() // KHÔNG dùng gin.Default() → tránh log trùng
+	return r
+}
+
+// RegisterRoutes — đăng ký tất cả routes theo module
+func RegisterRoutes(r *gin.Engine, log *zap.Logger, db *gorm.DB) {
+	// Health check — không cần auth
+	r.GET("/health", func(c *gin.Context) {
+		response.OK(c, gin.H{
+			"status": "ok",
+		})
+	})
+
+	// API v1
 	v1 := r.Group("/v1")
 	{
-		// get, put, patch, delete, head, options
 		v1.GET("/ping", Pong)
-		v1.GET("/ping/:name", Pong) // truyền tham số (name)
+		v1.GET("/ping/:name", PongWithName)
 	}
 
-	v2 := r.Group("/v2")
-	{
-		v2.GET("/ping", Pong)
-	}
-	// Define a simple GET endpoint
-	r.GET("/ping", Pong)
-
-	return r // trả về router
+	// API v2 — placeholder cho tương lai
+	// v2 := r.Group("/v2")
+	// {
+	// }
 }
 
-func AA(c *gin.Context) gin.HandlerFunc {
-	fmt.Println("before --> AA")
-	c.Next()
-	fmt.Println("after --> AA")
-	return nil
-}
-func BB(c *gin.Context) gin.HandlerFunc {
-	fmt.Println("before --> BB")
-	c.Next()
-	fmt.Println("after --> BB")
-	return nil
-}
-func CC(c *gin.Context) {
-	fmt.Println("before --> CC")
-	c.Next()
-	fmt.Println("after --> CC")
-}
-
-// Hàm này là hàm xử lý request (c là viết tắt của context)
+// Pong — demo endpoint
 func Pong(c *gin.Context) {
-	// name := c.Param("name") // param là tham số sau dấu /
-	name := c.DefaultQuery("name", "trung") // defaultQuery là tham số sau dấu ? và có giá trị mặc định
-	id := c.Query("id")                     // query là tham số sau dấu ?
-	// Return JSON response with status 200 gin.H => map[string] (là trả về key:value)
-	c.JSON(http.StatusOK, gin.H{
-		"message": "pong" + name,
+	name := c.DefaultQuery("name", "world")
+	id := c.Query("id")
+
+	response.OK(c, gin.H{
+		"message": "pong " + name,
 		"id":      id,
-		"love":    []string{"golang", "php", "python", "121"}, // nhận vào mảng giá trị string
+	})
+}
+
+// PongWithName — demo endpoint with path param
+func PongWithName(c *gin.Context) {
+	name := c.Param("name")
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": "pong " + name,
 	})
 }
